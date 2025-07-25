@@ -14,7 +14,7 @@ describe 'Todos API', type: :request do
 
       expect(response).to have_http_status(:success)
       expect(response_body.size).to eq(2)
-      expect(response_body).to eq(
+      expect(response_body['todos']).to eq(
         [{
           'id' => @todo1.id,
           'title' => 'Go for a walk',
@@ -33,8 +33,8 @@ describe 'Todos API', type: :request do
     it 'returns a subset of books based on limit' do
       get '/api/v1/todos', params: {limit: 1}, headers: { "Authorization" => "Bearer #{AuthenticationTokenService.encode(@user.id)}" }
       expect(response).to have_http_status(:success)
-      expect(response_body.size).to eq(1)
-      expect(response_body).to eq(
+      expect(response_body['todos'].size).to eq(1)
+      expect(response_body['todos']).to eq(
         [{
           'id' => @todo1.id,
           'title' => 'Go for a walk',
@@ -47,8 +47,8 @@ describe 'Todos API', type: :request do
       get '/api/v1/todos', params: {limit: 1, offset: 1}, headers: { "Authorization" => "Bearer #{AuthenticationTokenService.encode(@user.id)}" }
 
       expect(response).to have_http_status(:success)
-      expect(response_body.size).to eq(1)
-      expect(response_body).to eq(
+      expect(response_body['todos'].size).to eq(1)
+      expect(response_body['todos']).to eq(
         [{
           'id' => @todo2.id,
           'title' => 'Eat lunch',

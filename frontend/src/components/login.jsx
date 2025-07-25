@@ -3,11 +3,13 @@ import { useNavigate } from "react-router-dom"
 import Form from 'react-bootstrap/Form'
 import Container from 'react-bootstrap/Container'
 import Button from 'react-bootstrap/Button'
+import Alert from 'react-bootstrap/Alert'
 
 const Login = props => {
     const navigate = useNavigate()
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const [errorMessage, setErrorMessage] = useState("")
 
     const onChangeUsername = e => {
         const username = e.target.value
@@ -20,12 +22,17 @@ const Login = props => {
     }
 
     const login = () => {
-        props.login({username: username, password: password})
-        navigate('/')        
+        props.login({username: username, password: password});
+        navigate('/')
     }
 
     return (
         <Container>
+            {errorMessage.length > 0 ? (
+            <Alert variant="error">
+                {errorMessage}
+            </Alert>
+            ):(<div/>)}
             <Form>
                 <Form.Group className="mb-3">
                     <Form.Label>Username</Form.Label>
