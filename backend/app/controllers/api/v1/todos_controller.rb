@@ -7,13 +7,17 @@ module Api
 
       before_action :authenticate_user
       before_action :set_todo, only: %i[ show update destroy complete ]
+      before_action :limit, only: %i[index]
 
       # GET /todos
       def index
         # if no pagination parameters then all
-        todos = Todo.limit(limit).offset(params[:offset]).where(user_id: @user.id)
+        total = Todo.where(user_id: @user.id).count
+        offset = params[:offset].to_i || 0
+        todos = Todo.limit(limit).offset(offset).where(user_id: @user.id)
         
-        render json: TodosRepresenter.new(todos).as_json
+        render json: {'pagination' => {'offset' => params[:offset] || 0, 'limit' => limit, 'total' => total},
+        'todos' =>         TodosRepresenter.new(todos).as_json}
       end
 
       # GET /todos/1

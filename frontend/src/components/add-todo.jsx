@@ -1,7 +1,8 @@
-import React, { useState} from 'react'
-import { useLocation} from 'react-router'
+import React, { useEffect, useState} from 'react'
+import { Navigate, useLocation} from 'react-router'
 import TodoDataService from '../services/todos'
 import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/esm/Container'
@@ -15,6 +16,7 @@ const AddTodo = props => {
     let initialTodoMemo = ''
 
     const location = useLocation()
+    const navigate = useNavigate()
     if (location.state && location.state.currentTodo)
     {
         editing = true
@@ -59,13 +61,18 @@ const AddTodo = props => {
         {
             TodoDataService.createTodo(data, props.token)
                 .then(response => {
-                    setSubmitted(true)
+                    setSubmitted(true)                    
                 })
                 .catch(e => {
                     console.log(e)
                 })
         }
     }
+
+    useEffect(() => {
+        if (submitted)
+            navigate('/todos');
+    }, [submitted, navigate])
 
     const ref = React.useRef(null);
     return (

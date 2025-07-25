@@ -5,14 +5,13 @@ class TodosRepresenter
 
   def as_json
     todos.map do |todo| 
-    {
-      id: todo.id,
-      title: todo.title,
-      memo: todo.memo,
-      completed: todo.completed,
+      {
+        id: todo.id,
+        title: todo.title,
+        memo: todo.memo,
+        completed: todo.completed,
 
-    }
-      
+      }
     end
   end
 
