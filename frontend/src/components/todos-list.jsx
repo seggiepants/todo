@@ -11,7 +11,7 @@ import ReactPaginate from 'react-paginate';
 const TodosList = props => {
     const [todos, setTodos] = useState([])
     const [offset, setOffset] = useState(0)
-    const [batch, setBatch] = useState(3)
+    const [batch, setBatch] = useState(20)
     const [total, setTotal] = useState(0)
 
     useEffect(() => {
@@ -74,35 +74,38 @@ const TodosList = props => {
                             Add Todo
                         </Button>
                     </Link>
-                    <div className="row">
+                    <div className="container">
                         {todos.map((todo) => {
                             return (
-                            <Card key={todo.id} className="mb-3">
-                                <Card.Body>
-                                    <div className={`${todo.completed ? "text-decoration-line-through" : ""}`}>
-                                        <Card.Title>{todo.title}</Card.Title>
-                                        <Card.Text><b>Memo:</b> {todo.memo}</Card.Text>
-                                        <Card.Text>Date created: {dayjs(todo.created).format("MMMM DD, YYYY")}</Card.Text>
-                                        <span className="form-check">
-                                            <input type="checkbox" onClick={() => completeTodo(todo.id)} className="form-check-input" defaultChecked={todo.completed} />
-                                            <label className="form-check-label">Completed</label>
-                                        </span>
-                                    </div>
-                                    {!todo.completed &&
-                                    <Link to={'/todos/' + todo.id}
-                                        state={{
-                                            currentTodo: todo                            
-                                    }}>
-                                        <Button variant="outline-info" className="me-2">
-                                            Edit
+                            <div key={todo.id} className="row todo-row">
+                                <div className={`${todo.completed ? "text-decoration-line-through" : ""}`}>
+                                    <span className="todo-title">{todo.title}</span>
+                                    <div><b>Memo:</b> {todo.memo}</div>
+                                    <div>Date created: {dayjs(todo.created).format("MMMM DD, YYYY")}</div>
+                                    
+                                </div>
+                                <div>
+                                    <span className="form-check" style={{display: 'inline-block'}}>
+                                        <input type="checkbox" onClick={() => completeTodo(todo.id)} className="form-check-input" defaultChecked={todo.completed} />
+                                        <label className="form-check-label">Completed</label>
+                                    </span>
+                                    <span style={{float: 'right'}}>
+                                        {!todo.completed &&
+                                        <Link to={'/todos/' + todo.id}
+                                            state={{
+                                                currentTodo: todo                            
+                                        }}>
+                                            <Button variant="outline-info" className="me-2">
+                                                Edit
+                                            </Button>
+                                        </Link>
+                                        }
+                                        <Button variant="outline-danger" onClick={() => deleteTodo(todo.id)} className="me-2">
+                                            Delete
                                         </Button>
-                                    </Link>
-                                    }
-                                    <Button variant="outline-danger" onClick={() => deleteTodo(todo.id)} className="me-2">
-                                        Delete
-                                    </Button>                        
-                                </Card.Body>
-                            </Card>
+                                    </span>
+                                </div>
+                            </div>
                             )
                         })}
                     </div>

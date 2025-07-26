@@ -26,4 +26,5 @@ tmp
 *.sw?
 
 
-
+master.key
+*:Zone.Identifier
